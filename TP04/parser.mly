@@ -16,13 +16,23 @@
 
 %%
 
-    
+
+       
+term : functerm
+     | appterm functerm
+     
+     
+appterm : elemterm
+        | appterm elemterm
+        
+elemterm : id
+         | '(' term ')'
+         
+functerm : lambda id '.' term
+         | elemterm
+        
 affect : 
        | Llet '=' term
        | term
        
-term : 
-     | functerm
-     | appterm 
-    
 %%
