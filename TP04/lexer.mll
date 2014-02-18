@@ -10,8 +10,8 @@ rule lexer = parse                       (* nom de la fonction construite par oc
   | '\n'                            {Leol}                           
   | '('                             {Llpar}                          
   | ')'                             {Lrpar}
-  | 'Lambda'                        {Lbda}
+  | 'Lambda'                        {Llambda}
   | "let "[^ '\n']                  {Llet}
-  | '#'[^'\n']*'\n'                 {lexer lexbuf}
+  | ^'#'[^'\n']*'\n'                {lexer lexbuf}
   | ['a'-'z''A'-'Z''0'-'9''_']+     {{Lvar (Lexing.lexeme lexbuf)}}
   | ['a'-'z' 'A'-'Z']+              {Lident (Lexing.lexeme lexbuf)}

@@ -5,9 +5,10 @@
 %token Llet
 %token Lterm
 
-%token Lbda
+%token Llambda
 %token Lcom
 %token Lvar
+%token Leol
 
 %token <string> Lident            /* type de l'attribut fourni par le lexer */
 
@@ -16,23 +17,23 @@
 
 %%
 
-
+line : term Leol {$1}
        
-term : functerm
-     | appterm functerm
+term : functerm  {$1}
+     | appterm functerm  {App ($1, $2)}
      
      
-appterm : elemterm
-        | appterm elemterm
+appterm : elemterm  {$1}
+        | appterm elemterm  {App ($1, $2)}
         
-elemterm : id
-         | '(' term ')'
+elemterm : Lident  {Var ($1)}
+         | '(' term ')'  {$2}
          
-functerm : lambda id '.' term
-         | elemterm
+functerm : Llambda Lident '.' term  {Lambda ($2, $4)}
+         | elemterm  {$1}
         
 affect : 
-       | Llet '=' term
-       | term
+       | Llet '=' term  {}
+       | term  {$1}
        
 %%

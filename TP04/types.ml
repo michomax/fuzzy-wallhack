@@ -1,5 +1,5 @@
 (*Type Lambda-calcul*)
 type term = 
   | Var of string
-  | Abs of Var * term
+  | Lambda of string * term
   | App of term * term
