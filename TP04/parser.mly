@@ -19,11 +19,10 @@
 %%
 
 text : text line {$1}
-     | text affect {}
-     | Leol {}
 
 line : term Leol {$1}
      | term Leof {$1}
+     | affect Leol {}
        
 term : functerm  {$1}
      | appterm functerm  {App ($1, $2)}
