@@ -15,3 +15,4 @@ rule lexer = parse                       (* nom de la fonction construite par oc
   | '#'[^'\n']*'\n'                 {Llexer lexbuf}
   | ['a'-'z''A'-'Z''0'-'9''_']+     {{Lvar (Lexing.lexeme lexbuf)}}
   | ['a'-'z' 'A'-'Z']+              {Lident (Lexing.lexeme lexbuf)}
+  | _ as c                          {(Printf.printf"Erreur : %c" c);Leol}

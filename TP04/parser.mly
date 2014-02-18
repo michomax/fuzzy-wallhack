@@ -26,14 +26,15 @@ term : functerm  {$1}
 appterm : elemterm  {$1}
         | appterm elemterm  {App ($1, $2)}
         
-elemterm : Lident  {Var ($1)}
-         | '(' term ')'  {$2}
-         
+                 
 functerm : Llambda Lident '.' term  {Lambda ($2, $4)}
          | elemterm  {$1}
         
+elemterm : Lident  {Var ($1)}
+         | '(' term ')'  {$2}
+
 affect : 
-       | Llet '=' term  {}
+       | Llet '=' term  {$1}
        | term  {$1}
        
 %%
