@@ -12,6 +12,6 @@ rule lexer = parse                       (* nom de la fonction construite par oc
   | ')'                             {Lrpar}
   | 'Lambda'                        {Llambda}
   | "let "[^ '\n']                  {Llet}
-  | ^'#'[^'\n']*'\n'                {lexer lexbuf}
+  | '#'[^'\n']*'\n'                 {Llexer lexbuf}
   | ['a'-'z''A'-'Z''0'-'9''_']+     {{Lvar (Lexing.lexeme lexbuf)}}
   | ['a'-'z' 'A'-'Z']+              {Lident (Lexing.lexeme lexbuf)}
