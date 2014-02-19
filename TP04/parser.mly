@@ -9,20 +9,15 @@
 %token Lcom
 %token Lvar
 %token Leol
-%token Leof
 
 %token <string> Lident            /* type de l'attribut fourni par le lexer */
 
-%start text                      /* axiome */
-%type <Types.term> text           /* type de l'attribut de l'axiome */ 
+%start line                      /* axiome */
+%type <Types.term> line          /* type de l'attribut de l'axiome */ 
 
 %%
 
-text : line text {$1}
-     | {}
-
 line : term Leol {$1}
-     | term Leof {$1}
      | affect Leol {}
        
 term : functerm  {$1}
@@ -35,12 +30,8 @@ functerm : Llambda Lident '.' term  {Lambda ($2, $4)}
          | elemterm  {$1}
          
 appterm : elemterm  {$1}
-        | appterm elemterm  {App ($1, $2)}        
-        
+        | appterm elemterm  {App ($1, $2)}          
 
-         
-
-affect : Llet '=' term  {$3}
-       | term  {$1 /*tooooooools*/}
+affect : Llet Lident '=' term  {}
        
 %%
