@@ -2,8 +2,9 @@ open Types ;;
 
 let hash = Hashtbl.create 1;;
 
-let affect (nom : string) (val : term) = 
-  Hashtbl.replace hash nom term
+let affect (nom : string) (valeur : term) = 
+  Hashtbl.replace hash nom valeur ;
+  valeur
 ;;
 
 let valeur nom = 
@@ -14,11 +15,11 @@ let valeur nom =
 ;;
 
 
-let rec subst x tc ts = 
+let rec subst v tc ts = 
   match ts with 
-    | Var x when x = t1 -> t2
-    | App (t1, t2) -> App ((substitute x tc t1), (substitute x tc t2))
-    | Lambda (x, t2) when x <> tc -> Lambda (x, (substitute x tc t2))
-    | _ -> t
+    | Var x when x = v -> tc
+    | App (t1, t2) -> App ((subst v tc t1), (subst v tc t2))
+    | Lambda (x, t2) when x <> v -> Lambda (x, (subst v tc t2))
+    | _ -> ts
 ;;
 

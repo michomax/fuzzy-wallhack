@@ -4,9 +4,9 @@ open Tools ;;
 let rec eval1 t =
   match t with 
   | Var x -> valeur x
-  | Lambda(x, t) -> term
+  | Lambda(x, t1) -> t
+  | App(Lambda(x, t1), t2) -> (subst x (eval1 t2) t1)
   | App(t1, t2) -> App((eval1 t1), t2)
-  | App(Lambda(x, t), t2) -> App (subst x (eval t2) t)
 ;;
 
 let rec eval t =
