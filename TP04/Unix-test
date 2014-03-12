@@ -1,0 +1,13 @@
+# successeur de zéro
+
+ (lambda n. lambda s. lambda z. s (n s z)) lambda s. lambda z. z ;; 
+
+# c1 
+lambda s. lambda z. s z ;;
+
+# un terme non clos
+ let bug = lambda x. (lambda y. x y) y ;;
+
+let cond = lambda b. lambda t. lambda f. b t f ;;
+
+let pair = lambda f. lambda s. lambda b. b f s;;
