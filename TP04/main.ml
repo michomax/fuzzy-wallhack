@@ -1,18 +1,19 @@
 
-let rec loop selectFile =
-  try
-    let a = Eval.eval (Parser.line Lexer.lexer ((Lexing.from_channel selectFile))
-    ) in
-    Output.affichage a;
-    loop selectFile
-  with Lexer.Eof -> 
-    close_in selectFile
-;;
-
 let selectFile =
     match (Array.length Sys.argv) with
-      | 1 -> stdin
-      | 2 -> (open_in (Sys.argv.(1)))
+      | 1 -> Lexing.from_channel stdin
+      | 2 -> Lexing.from_channel (open_in (Sys.argv.(1)))
       | _ -> failwith "Trop de paramètres"
 in
-loop selectFile;; 
+let rec loop () =
+  try
+    let a = Eval.eval (Parser.line Lexer.lexer (selectFile)
+    ) in
+    Output.affichage a;
+    loop ()
+  with Lexer.Eof -> 1
+    (*close_in selectFile*)
+in
+  loop ();; 
+
+
