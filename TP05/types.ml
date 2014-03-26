@@ -2,6 +2,7 @@
 type typage = 
   | Bool
   | Nat
+  | Fct of typage * typage
 ;;
 
 type term = 

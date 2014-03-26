@@ -13,6 +13,12 @@ rule lexer = parse       (* nom de la fonction construite par ocamllex pour *)
   | [' ']*')'[' ']*                 {Lrpar}
   | "lambda"                        {Llambda}
   | '='                             {Leq}
+  | ':'                             {Ltypage}
+  | "->"                            {Lfleche}
+  | "Bool"                          {Lbool}
+  | "bool"                          {Lbool}
+  | "Nat"                           {Lnat}
+  | "nat"                           {Lnat}
   | "let"                           {Llet}
   | '.'                             {Ldot}
   | "true"                          {Ltrue}
