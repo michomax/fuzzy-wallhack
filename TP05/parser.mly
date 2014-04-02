@@ -4,7 +4,6 @@
 %}
 
 %token Llet
-%token Lterm
 
 %token Llambda
 %token Leol
@@ -23,6 +22,12 @@
 %token Ltrue
 %token Lfalse
 
+%token Ltype
+%token Lfleche
+%token Lbool
+%token Lnat
+%token Ltypage
+
 %token <string> Lvar            /* type de l'attribut fourni par le lexer */
 
 %start line                      /* axiome */
@@ -37,9 +42,14 @@ term : functerm  {$1}
      | appterm functerm  {App ($1, $2)}
      | prop {$1}
      
-functerm : Llambda Lvar Ldot term  {Lambda ($2, $4)}
+functerm : Llambda Lvar Ltypage typage Ldot term  {Lambda ($2, $4, $4)}
          | elemterm  {$1}
+         
+typage : typ {$1}
+       | typ Lfleche typage {Fct ($1, $3)}
 
+typ : Lbool {Bool}
+    | Lnat {Nat}
          
 appterm : elemterm  {$1}
         | appterm elemterm  {App ($1, $2)}  
@@ -50,8 +60,8 @@ elemterm : Lvar  {Var ($1)}
 affect : Llet Lvar Leq term  {(Tools.affect $2 $4)}
 
 prop: 
- | Lif term Lthen term Lelse term    {Cond ($2, $4, $6)}
- | Lsucc term          {Succ $2}
+  | Lif term Lthen term Lelse term    {Cond ($2, $4, $6)}
+  | Lsucc term          {Succ $2}
   | Lpred term          {Pred $2}
   | Liszero term        {Iszero $2}
   | Ltrue               {True}
