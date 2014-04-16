@@ -1,6 +1,16 @@
 open Types;;
 open Eval;;
 
+
+
+let rec type_to_string typ = 
+  match typ with 
+  | Bool -> "Bool"
+  | Nat -> "Nat"
+  | Fct(t1, t2) -> (type_to_sring t1) ^ " -> " ^ (type_to_string t2)
+;;
+
+
 let rec indent i = 
   match i with 
   | 0 -> ""
