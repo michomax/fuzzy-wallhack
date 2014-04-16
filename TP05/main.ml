@@ -1,4 +1,3 @@
-
 let selectFile =
     match (Array.length Sys.argv) with
       | 1 -> Lexing.from_channel stdin
@@ -14,6 +13,4 @@ let rec loop () =
   with Lexer.Eof -> 1
     (*close_in selectFile*)
 in
-  loop ();; 
-
-
+  loop ();;
