@@ -1,22 +1,21 @@
 open Types;;
-open Eval;;
+open Tools;;
 
 exception NoType;;
 exception BadType;;
 
-let istypable t =
-    match t with
-        | Some_type tt -> true
-        | _ -> false
-;;
-
 let rec searchType x gamma = 
   match gamma with 
-  | (var, typ) when var = x -> typ
-  | couple::suite -> searchType x suite
-;;
+  | [] -> 
+    begin 
+      match Tools.valeur x with
+      | Var y -> raise NoType
+      | term -> typecheck term gamma 
+    end
+  | (var, typ)::s when var = x -> typ
+  | _::s -> searchType x s
  
-let rec typecheck ty gamma =
+and typecheck ty gamma =
     match ty with 
     | True -> Bool
     | False -> Bool
@@ -26,8 +25,7 @@ let rec typecheck ty gamma =
                 else
                   raise BadType
     | Succ t -> if typecheck t gamma = Nat then
-                  Natif typecheck t l = Some_type Nat then
-                  Some_type Nat
+                  Nat
                 else
                   raise BadType
     | Iszero t -> if typecheck t gamma = Nat then
@@ -44,11 +42,11 @@ let rec typecheck ty gamma =
                   raise BadType
     | App (t1, t2) -> 
       begin 
-        match t1 with 
+        match (typecheck t1 gamma) with 
         | Fct(t11, t12) when ((typecheck t2 gamma) = t11) -> t12
         | _ -> raise BadType
       end
-    | Lambda (s, typ, term) -> (Fct (typ, typecheck term (s, typ)::gamma))
+    | Lambda (s, typ, term) -> (Fct (typ, (typecheck term ((s, typ)::gamma))))
     | Var s -> searchType s gamma
-    | _ -> raise NoType
+    | _ -> raise BadType
 ;;

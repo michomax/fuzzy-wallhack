@@ -19,7 +19,7 @@ let rec subst v tc ts =
   match ts with 
     | Var x when x = v -> tc
     | App (t1, t2) -> App ((subst v tc t1), (subst v tc t2))
-    | Lambda (x, t2) when x <> v -> Lambda (x, (subst v tc t2))
+    | Lambda (x, typ, t2) when x <> v -> Lambda (x, typ,(subst v tc t2))
     | _ -> ts
 ;;
 
