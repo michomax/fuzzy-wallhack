@@ -2,7 +2,6 @@ open Types;;
 open Eval;;
 
 
-
 let rec type_to_string typ = 
   match typ with 
   | Bool -> "Bool"
