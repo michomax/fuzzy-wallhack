@@ -42,7 +42,7 @@ term : functerm  {$1}
      | appterm functerm  {App ($1, $2)}
      | prop {$1}
      
-functerm : Llambda Lvar Ltypage typage Ldot term  {Lambda ($2, $4, $4)}
+functerm : Llambda Lvar Ltypage typage Ldot term  {Lambda ($2, $4, $6)}
          | elemterm  {$1}
          
 typage : typ {$1}
