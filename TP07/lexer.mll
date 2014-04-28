@@ -19,8 +19,10 @@ rule lexer = parse       (* nom de la fonction construite par ocamllex pour *)
   | "bool"                          {Lbool}
   | "Nat"                           {Lnat}
   | "nat"                           {Lnat}
+  | "Unit"                          {LTunit}
   | "let"                           {Llet}
   | '.'                             {Ldot}
+  | "unit"                          {LUnit}
   | "true"                          {Ltrue}
   | "false"                         {Lfalse}
   | "if"                            {Lif}

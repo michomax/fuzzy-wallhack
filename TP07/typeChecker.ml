@@ -21,6 +21,7 @@ let rec typecheck ty gamma =
     | True -> Bool
     | False -> Bool
     | Zero -> Nat
+    | Unit -> TUnit
     | Pred t -> if typecheck t gamma = Nat then
                   Nat
                 else

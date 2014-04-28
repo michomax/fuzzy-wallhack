@@ -21,11 +21,13 @@
 %token Liszero
 %token Ltrue
 %token Lfalse
+%token LUnit
 
 %token Ltype
 %token Lfleche
 %token Lbool
 %token Lnat
+%token LTunit
 %token Ltypage
 
 %token <string> Lvar            /* type de l'attribut fourni par le lexer */
@@ -50,6 +52,7 @@ typage : typ {$1}
 
 typ : Lbool {Bool}
     | Lnat {Nat}
+    | LTunit {TUnit}
          
 appterm : elemterm  {$1}
         | appterm elemterm  {App ($1, $2)}  
@@ -67,4 +70,5 @@ prop:
   | Ltrue               {True}
   | Lfalse              {False}
   | Lzero               {Zero}
+  | LUnit								{Unit}
 %%

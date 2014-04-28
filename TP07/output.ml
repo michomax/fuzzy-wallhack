@@ -6,6 +6,7 @@ let rec type_to_string typ =
   match typ with 
   | Bool -> "Bool"
   | Nat -> "Nat"
+  | TUnit -> "Unit"
   | Fct(t1, t2) -> (type_to_sring t1) ^ " -> " ^ (type_to_string t2)
 ;;
 
@@ -22,6 +23,7 @@ let rec toString t n =
   match t with
   | True -> ind ^ "vrai "
   | False -> ind ^ "faux "
+  | Unit -> ind ^ "unit"
   | Zero -> "0"
   | Var x -> x
   | Lambda (x, t) -> ind ^ "λ" ^ x ^ ". " ^ (stringOfTerm t)
