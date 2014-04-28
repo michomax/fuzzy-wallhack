@@ -1,0 +1,14 @@
+open Types;;
+open Eval;;
+
+type check = 
+	| Some_type of typage 
+	| No_type of string
+;;
+
+let istypable t =
+	match t with
+		| Some_type tt -> true
+		| _ -> false
+;;
+
