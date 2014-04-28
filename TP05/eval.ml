@@ -1,5 +1,6 @@
 open Types ;;
 open Tools ;;
+open TypeChecker;;
 
 let rec isNum t =
   match t with
@@ -7,22 +8,6 @@ let rec isNum t =
   | Succ (t1) -> (isNum t1)
   | _ -> False
 ;;
-
-let isVal t = 
-  match t with 
-  | True -> True
-  | False -> True
-  | Zero -> True
-  | Cond (t1, t2, t3) -> False
-  | Iszero (t1) -> False
-  | Pred (t1) -> False
-  | Succ (t1) -> isNum t1
-  | None -> None  | Var x -> valeur x
-  | Lambda(x, typ, t1) -> t
-  | App(Lambda(x, typ, t1), t2) -> (subst x (eval1 t2) t1)
-  | App(t1, t2) -> App((eval1 t1), t2)
-;;
-
 
 let rec eval1 t =
   match t with 
@@ -44,7 +29,29 @@ let rec eval1 t =
   | _ -> t
 ;;
 
+let isVal t = 
+  match t with 
+  | True -> True
+  | False -> True
+  | Zero -> True
+  | Cond (t1, t2, t3) -> False
+  | Iszero (t1) -> False
+  | Pred (t1) -> False
+  | Succ (t1) -> isNum t1
+  | None -> None  | Var x -> valeur x
+  | Lambda(x, typ, t1) -> t
+  | App(Lambda(x, typ, t1), t2) -> (subst x (eval1 t2) t1)
+  | App(t1, t2) -> App((eval1 t1), t2)
+;;
+
 let rec eval t =
+  begin
+  try 
+    TypeChecker.typecheck t []
+  with
+    | NoType -> Exn "Le terme n'est pas clos"
+    | BadType -> Exn "Mauvais type"
+  end;
   let t' = (eval1 t) 
   in 
   if t = t' then 

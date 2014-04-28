@@ -3,6 +3,7 @@ type typage =
   | Bool
   | Nat
   | Fct of typage * typage
+  | Exn of string
 ;;
 
 type term = 

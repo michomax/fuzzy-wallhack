@@ -40,9 +40,12 @@ line : term Leol {$1}
        
 term : functerm  {$1}
      | appterm functerm  {App ($1, $2)}
-     | prop {$1}
      
 functerm : Llambda Lvar Ltypage typage Ldot term  {Lambda ($2, $4, $6)}
+         | Lif term Lthen term Lelse term    {Cond ($2, $4, $6)}
+         | Lsucc term          {Succ $2}
+         | Lpred term          {Pred $2}
+         | Liszero term        {Iszero $2}
          | elemterm  {$1}
          
 typage : typ {$1}
@@ -50,21 +53,17 @@ typage : typ {$1}
 
 typ : Lbool {Bool}
     | Lnat {Nat}
+    | Llpar typage Lrpar {$2}
          
 appterm : elemterm  {$1}
         | appterm elemterm  {App ($1, $2)}  
         
 elemterm : Lvar  {Var ($1)}
-         | Llpar term Lrpar  {$2}             
+         | Llpar term Lrpar  {$2} 
+         | Ltrue               {True}
+         | Lfalse              {False}
+         | Lzero               {Zero}
 
 affect : Llet Lvar Leq term  {(Tools.affect $2 $4)}
 
-prop: 
-  | Lif term Lthen term Lelse term    {Cond ($2, $4, $6)}
-  | Lsucc term          {Succ $2}
-  | Lpred term          {Pred $2}
-  | Liszero term        {Iszero $2}
-  | Ltrue               {True}
-  | Lfalse              {False}
-  | Lzero               {Zero}
 %%

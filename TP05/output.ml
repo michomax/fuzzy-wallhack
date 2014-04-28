@@ -6,7 +6,8 @@ let rec type_to_string typ =
   match typ with 
   | Bool -> "Bool"
   | Nat -> "Nat"
-  | Fct(t1, t2) -> (type_to_sring t1) ^ " -> " ^ (type_to_string t2)
+  | Fct(t1, t2) -> (type_to_string t1) ^ " -> " ^ (type_to_string t2)
+  | Exn s -> s
 ;;
 
 
@@ -24,8 +25,8 @@ let rec toString t n =
   | False -> ind ^ "faux "
   | Zero -> "0"
   | Var x -> x
-  | Lambda (x, t) -> ind ^ "λ" ^ x ^ ". " ^ (stringOfTerm t)
-  | App (t1, t2) -> (stringOfTerm t1) ^ " " ^ (stringOfTerm t2)
+  | Lambda (x, typ, t) -> ind ^ "λ" ^ x ^ ":" ^ (type_to_string typ) ^ ". " ^ (toString t (n + 1))
+  | App (t1, t2) -> (toString t1 (n + 1)) ^ " " ^ (toString t2 (n + 1))
   | Cond (t1, t2, t3) -> "\n" ^ ind ^ "if " ^ (toString t1 (n + 1)) ^ "then\n" ^ 
 (toString t2 (n + 1)) ^ "\n" ^ ind ^ "else\n" ^ (toString t3 (n + 1)) ^ "\n"
   | Iszero t1 -> ind ^ "Iszero " ^ (toString t1 (n + 1)) ^ " "

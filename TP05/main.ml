@@ -8,7 +8,7 @@ let rec loop () =
   try
     let a = Eval.eval (Parser.line Lexer.lexer (selectFile)
     ) in
-    Output.affichage a;
+    Output.affiche a;
     loop ()
   with Lexer.Eof -> 1
     (*close_in selectFile*)
